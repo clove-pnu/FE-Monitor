@@ -13,33 +13,39 @@ const data = [
   [1725688234, '0.179349452'],
 ];
 
-export default function Dashboard() {
+interface DashboardProps {
+  title: string;
+  pid: number;
+}
+
+export default function Dashboard({ title, pid }: DashboardProps) {
   return (
     <div className={styles.container}>
-      <div className={styles.title}>CPU 사용량</div>
+      <div className={styles.title}>{title}</div>
       <ResponsiveLine
         data={
         [
           {
-            id: 'cpu',
-            data: data.map(([x, y]) => ({
-              x: new Date(Number(x) * 1000),
-              y: (Number(y) * 100).toFixed(2),
-            })),
+            id: title,
+            data: data.map(([x, y]) => {
+              const date = new Date(Number(x) * 1000);
+              return {
+                x: `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+                y: (Number(y) * 100).toFixed(2),
+              };
+            }),
           },
         ]
 }
         margin={{
-          top: 32, right: 48, bottom: 32, left: 48,
+          top: 32, right: 64, bottom: 32, left: 64,
         }}
         pointSize={8}
         useMesh
         xScale={{ type: 'point' }}
-        xFormat={(value) => value.toLocaleString()}
         axisBottom={{
           tickPadding: 5,
           tickRotation: 0,
-          format: (value: Date) => value.toLocaleTimeString(),
         }}
         yScale={{
           type: 'linear',
@@ -64,6 +70,9 @@ export default function Dashboard() {
             },
           },
         }}
+        enableSlices="x"
+        areaOpacity={0.5}
+        colors={{ scheme: 'paired' }}
       />
     </div>
   );
