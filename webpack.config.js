@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -48,6 +49,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
+    new ModuleFederationPlugin({
+      name: 'monitor',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Dashboard': './src/components/monitor/Dashboard',
+      },
+      shared: ['react', 'react-dom', 'axios'],
+    }),
   ],
   devServer: {
     static: [
@@ -62,7 +71,7 @@ module.exports = {
       {
         context: ['/api/monitor'],
         target: 'http://34.47.117.26',
-        pathRewrite: { '^/api': '' },
+        pathRewrite: { '^/api/monitor': '/monitor' },
       },
     ],
   },

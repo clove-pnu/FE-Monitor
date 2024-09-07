@@ -1,5 +1,5 @@
 {
-  "name": "fe-main",
+  "name": "fe-monitor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nivo/core": "^0.87.0",
+    "@nivo/line": "^0.87.0",
     "axios": "^1.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
