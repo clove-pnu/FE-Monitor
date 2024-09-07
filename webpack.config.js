@@ -67,12 +67,5 @@ module.exports = {
     compress: false,
     port: 3006,
     historyApiFallback: true,
-    proxy: [
-      {
-        context: ['/api/monitor'],
-        target: 'http://34.47.117.26',
-        pathRewrite: { '^/api/monitor': '/monitor' },
-      },
-    ],
   },
 };
