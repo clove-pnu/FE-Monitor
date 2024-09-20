@@ -1,4 +1,4 @@
-import { ResponsiveLine } from '@nivo/line';
+import { PointTooltipProps, ResponsiveLine } from '@nivo/line';
 import styles from '../styles/Dashboard.module.css';
 
 const data = [
@@ -11,11 +11,29 @@ const data = [
   [1725688114, '0.103994512'],
   [1725688174, '0.149992352'],
   [1725688234, '0.179349452'],
+  [1725688294, '0.109234512'],
+  [1725688354, '0.129344512'],
+  [1725688414, '0.123454512'],
+  [1725688474, '0.109494512'],
+  [1725688534, '0.109454512'],
+  [1725688594, '0.209994512'],
+  [1725688654, '0.103994512'],
+  [1725688714, '0.149992352'],
+  [1725688774, '0.179349452'],
 ];
 
 interface DashboardProps {
   title: string;
   pid: number;
+}
+
+function Tooltip({ point }: PointTooltipProps) {
+  return (
+    <div className={styles.tooltipContainer}>
+      <div>{point.data.xFormatted}</div>
+      <div>{point.data.yFormatted}</div>
+    </div>
+  );
 }
 
 export default function Dashboard({ title, pid }: DashboardProps) {
@@ -38,14 +56,15 @@ export default function Dashboard({ title, pid }: DashboardProps) {
         ]
 }
         margin={{
-          top: 32, right: 64, bottom: 32, left: 64,
+          top: 32, right: 64, bottom: 96, left: 96,
         }}
         pointSize={8}
         useMesh
         xScale={{ type: 'point' }}
         axisBottom={{
           tickPadding: 5,
-          tickRotation: 0,
+          tickRotation: -30,
+          tickValues: 5,
         }}
         yScale={{
           type: 'linear',
@@ -70,9 +89,9 @@ export default function Dashboard({ title, pid }: DashboardProps) {
             },
           },
         }}
-        enableSlices="x"
         areaOpacity={0.5}
-        colors={{ scheme: 'paired' }}
+        colors={['#567ace']}
+        tooltip={Tooltip}
       />
     </div>
   );
