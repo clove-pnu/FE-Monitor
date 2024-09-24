@@ -53,7 +53,8 @@ module.exports = {
       name: 'monitor',
       filename: 'remoteEntry.js',
       exposes: {
-        './Dashboard': './src/components/monitor/Dashboard',
+        './Monitor': './src/components/monitor/Monitor',
+        './PlayMonitor': './src/components/monitor/PlayMonitor',
       },
       shared: ['react', 'react-dom', 'axios'],
     }),
