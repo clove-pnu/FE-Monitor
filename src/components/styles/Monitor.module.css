@@ -1,0 +1,12 @@
+/* All */
+
+/* Mobile */
+@media (width < 1024px) {
+  .container {
+    margin: 0 2rem;
+  }
+}
+
+@media (width >= 1024px) {
+  
+}
