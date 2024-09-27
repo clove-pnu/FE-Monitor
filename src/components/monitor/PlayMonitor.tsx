@@ -19,7 +19,10 @@ export default function PlayMonitor({
   sectionData,
   dateData,
 }: PlayMonitorProps) {
-  if (!totalSeatCount || !reservedSeatCount || !sectionData || !dateData) {
+  if (Number.isNaN(Number(totalSeatCount))
+    || Number.isNaN(Number(reservedSeatCount))
+    || !sectionData
+    || !dateData) {
     return (
       <div>
         데이터가 없습니다.
@@ -130,6 +133,9 @@ export default function PlayMonitor({
                   1.6,
                 ],
               ],
+            }}
+            axisLeft={{
+              format: (data) => (Math.floor(data) === data ? data : ''),
             }}
           />
         </div>
