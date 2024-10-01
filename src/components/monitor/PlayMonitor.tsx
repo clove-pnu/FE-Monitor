@@ -1,24 +1,83 @@
 import { ResponsivePie } from '@nivo/pie';
 import { ResponsiveBar } from '@nivo/bar';
 import { ResponsiveLine } from '@nivo/line';
+import { useEffect, useState } from 'react';
 import styles from '../styles/PlayMonitor.module.css';
+import { fetchWithHandler } from '../../utils/fetchWithHandler';
+import { getPlayMonitorData } from '../../apis/ticket';
 
 interface PlayMonitorProps {
-  totalSeatCount: number;
-  reservedSeatCount: number;
-  sectionData: {
-    section: string;
-    data: number;
-  }[];
-  dateData: [string, number][];
+  namespace: string;
+  seatData: any;
 }
 
 export default function PlayMonitor({
-  totalSeatCount,
-  reservedSeatCount,
-  sectionData,
-  dateData,
+  namespace,
+  seatData,
 }: PlayMonitorProps) {
+  const [ticketData, setTicketData] = useState(null);
+  const [recentDates, setRecentDates] = useState<string[]>(null);
+  const [totalSeatCount, setTotalSeatCount] = useState<number>(null);
+  const [reservedSeatCount, setReservedSeatCount] = useState<number>(null);
+  const [sectionData, setSectionData] = useState<{
+    section: string;
+    data: number;
+  }[]>(null);
+  const [dateData, setDateData] = useState<[string, number][]>([]);
+
+  useEffect(() => {
+    const now = new Date(Date.now());
+    now.setDate(now.getDate() + 1);
+
+    const recentDateArray = [...new Array(7)].map(() => {
+      now.setDate(now.getDate() - 1);
+
+      const monthString = now.getMonth() + 1;
+      const dateString = now.getDate();
+
+      return `${now.getFullYear()}-${monthString < 10 ? `0${monthString}` : monthString}-${dateString < 10 ? `0${dateString}` : dateString}`;
+    }).reverse();
+
+    setRecentDates(recentDateArray);
+  }, []);
+
+  useEffect(() => {
+    if (namespace && recentDates) {
+      fetchWithHandler(() => getPlayMonitorData(), {
+        onSuccess: (response) => {
+          const dataResult = response.data.tickets.filter((d) => d.namespace === namespace);
+
+          let acc = 0;
+          const dateDataResult: [string, number][] = recentDates.map((currentDate) => {
+            const cur = dataResult.filter((d) => d.purchaseDate === currentDate).length;
+            const count = acc + cur;
+            acc += cur;
+
+            return [
+              currentDate,
+              count,
+            ];
+          });
+
+          setTicketData(dataResult);
+          setDateData(dateDataResult);
+        },
+        onError: () => {},
+      });
+    }
+  }, [namespace, recentDates]);
+
+  useEffect(() => {
+    if (ticketData && seatData) {
+      setTotalSeatCount(seatData.reduce((acc, cur) => acc + cur.count, 0));
+      setReservedSeatCount(ticketData.length);
+      setSectionData(seatData.map((currentSection) => ({
+        section: currentSection.section,
+        data: ticketData.filter((d) => d.section === currentSection.section).length,
+      })));
+    }
+  }, [ticketData, seatData]);
+
   if (Number.isNaN(Number(totalSeatCount))
     || Number.isNaN(Number(reservedSeatCount))
     || !sectionData
@@ -171,8 +230,6 @@ export default function PlayMonitor({
             tickPadding: 5,
             tickRotation: 0,
           }}
-        // enableArea
-          // curve="monotoneX"
           theme={{
             text: {
               fontFamily: 'NotoSansKR',
