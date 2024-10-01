@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Seat } from '../../utils/type';
-import styles from '../styles/SimplePlayMonitor.module.css';
 import { fetchWithHandler } from '../../utils/fetchWithHandler';
 import { getPlayMonitorData } from '../../apis/ticket';
 import ProgressBar from '../common/ProgressBar';
@@ -40,11 +39,9 @@ export default function SimplePlayMonitor({
   }
 
   return (
-    <div className={styles.container}>
-      <ProgressBar
-        cur={reservedSeatCount}
-        total={totalSeatCount}
-      />
-    </div>
+    <ProgressBar
+      cur={reservedSeatCount}
+      total={totalSeatCount}
+    />
   );
 }
