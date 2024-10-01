@@ -74,7 +74,12 @@ export default function Dashboard({
   }
 
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        height: `${360 + data.length * 32}px`,
+      }}
+    >
       <div className={styles.title}>{title}</div>
       <ResponsiveLine
         data={data.map(({ name, values }) => ({
@@ -95,7 +100,7 @@ export default function Dashboard({
           }),
         }))}
         margin={{
-          top: 32, right: 128, bottom: 32, left: 64,
+          top: 32, right: 32, bottom: data.length * 32, left: 64,
         }}
         pointSize={8}
         useMesh
@@ -133,19 +138,20 @@ export default function Dashboard({
         tooltip={Tooltip}
         legends={[
           {
-            anchor: 'bottom-right',
+            anchor: 'bottom-left',
             direction: 'column',
             justify: false,
-            translateX: 100,
-            translateY: 10,
+            translateX: -32,
+            translateY: 96,
             itemsSpacing: 0,
             itemDirection: 'left-to-right',
             itemWidth: 80,
             itemHeight: 20,
-            itemOpacity: 0.75,
+            itemOpacity: 1,
             symbolSize: 12,
             symbolShape: 'circle',
-            symbolBorderColor: 'rgba(0, 0, 0, .5)',
+            symbolBorderColor: 'rgba(0, 0, 0, 0.2)',
+            symbolBorderWidth: 1,
             effects: [
               {
                 on: 'hover',

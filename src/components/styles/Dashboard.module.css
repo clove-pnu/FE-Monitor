@@ -19,7 +19,6 @@
 /* Mobile */
 @media (width < 1024px) {
   .container {
-    height: 320px;
     width: 100%;
     padding: 2rem 0;
     margin: 2rem 0;
@@ -31,7 +30,6 @@
 /* Desktop */
 @media (width >= 1024px) {
   .container {
-    height: 360px;
     width: 1024px;
     padding: 1.5rem 0 2rem;
     border-radius: 0.5rem;
