@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import styles from '../styles/PlayMonitor.module.css';
 import { fetchWithHandler } from '../../utils/fetchWithHandler';
 import { getPlayMonitorData } from '../../apis/ticket';
+import { Seat } from '../../utils/type';
 
 interface PlayMonitorProps {
   namespace: string;
-  seatData: any;
+  seatData: Seat[];
 }
 
 export default function PlayMonitor({

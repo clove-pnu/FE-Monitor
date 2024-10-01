@@ -55,6 +55,7 @@ module.exports = {
       exposes: {
         './Monitor': './src/components/monitor/Monitor',
         './PlayMonitor': './src/components/monitor/PlayMonitor',
+        './SimplePlayMonitor': './src/components/monitor/SimplePlayMonitor',
       },
       shared: ['react', 'react-dom', 'axios'],
     }),

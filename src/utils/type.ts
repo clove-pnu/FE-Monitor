@@ -9,3 +9,10 @@ export interface ResponseData {
   },
   values: [number, string][];
 }
+
+export interface Seat {
+  id: number;
+  section: string;
+  price: string;
+  count: number
+}
