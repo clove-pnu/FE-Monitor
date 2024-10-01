@@ -83,7 +83,7 @@ export default function Dashboard({
       <div className={styles.title}>{title}</div>
       <ResponsiveLine
         data={data.map(({ name, values }) => ({
-          id: name,
+          id: name.split('-deployment')[0],
           data: values.map(([x, y]) => {
             const date = new Date(Number(x) * 1000);
 
