@@ -1,7 +1,7 @@
 /* All */
 .container {
   position: relative;
-  height: 1.25rem;
+  height: 1rem;
   width: 100%;
   background-color: #c0c0c0;
   border-radius: 9999px;
@@ -10,7 +10,7 @@
 
 .bar {
   position: absolute;
-  height: 1.25rem;
+  height: 1rem;
   background-color: var(--color-blue);
 }
 

@@ -3,6 +3,7 @@ import { Seat } from '../../utils/type';
 import { fetchWithHandler } from '../../utils/fetchWithHandler';
 import { getPlayMonitorData } from '../../apis/ticket';
 import ProgressBar from '../common/ProgressBar';
+import styles from '../styles/SimplePlayMonitor.module.css';
 
 interface SimplePlayMonitorProps {
   namespace: string;
@@ -39,9 +40,21 @@ export default function SimplePlayMonitor({
   }
 
   return (
-    <ProgressBar
-      cur={reservedSeatCount}
-      total={totalSeatCount}
-    />
+    <div className={styles.container}>
+      <div className={styles.info}>
+        <div>예매 현황</div>
+        <div>
+          {reservedSeatCount}
+          {' '}
+          /
+          {' '}
+          {totalSeatCount}
+        </div>
+      </div>
+      <ProgressBar
+        cur={reservedSeatCount}
+        total={totalSeatCount}
+      />
+    </div>
   );
 }
