@@ -100,7 +100,7 @@ export default function Dashboard({
           }),
         }))}
         margin={{
-          top: 32, right: 32, bottom: data.length * 32, left: 64,
+          top: 32, right: 32, bottom: data.length * 25, left: 64,
         }}
         pointSize={8}
         useMesh
@@ -142,7 +142,7 @@ export default function Dashboard({
             direction: 'column',
             justify: false,
             translateX: -32,
-            translateY: 96,
+            translateY: data.length * 25,
             itemsSpacing: 0,
             itemDirection: 'left-to-right',
             itemWidth: 80,

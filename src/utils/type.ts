@@ -13,6 +13,5 @@ export interface ResponseData {
 export interface Seat {
   id: number;
   section: string;
-  price: string;
   count: number
 }
