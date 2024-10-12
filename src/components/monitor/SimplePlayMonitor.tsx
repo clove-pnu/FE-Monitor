@@ -1,25 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Seat } from '../../utils/type';
 import { fetchWithHandler } from '../../utils/fetchWithHandler';
 import { getPlayMonitorData } from '../../apis/ticket';
 import ProgressBar from '../common/ProgressBar';
 import styles from '../styles/SimplePlayMonitor.module.css';
+import { getSeat } from '../../apis/seat';
 
 interface SimplePlayMonitorProps {
   namespace: string;
-  seatData: Seat[];
+  eventName: string;
 }
 
 export default function SimplePlayMonitor({
   namespace,
-  seatData,
+  eventName,
 }: SimplePlayMonitorProps) {
   const [totalSeatCount, setTotalSeatCount] = useState<number>(null);
   const [reservedSeatCount, setReservedSeatCount] = useState<number>(null);
 
   useEffect(() => {
     if (namespace) {
-      fetchWithHandler(() => getPlayMonitorData(), {
+      fetchWithHandler(() => getPlayMonitorData(namespace), {
         onSuccess: (response) => {
           setReservedSeatCount(response.data.tickets
             .filter((d) => d.namespace === namespace).length);
@@ -30,12 +30,17 @@ export default function SimplePlayMonitor({
   }, [namespace]);
 
   useEffect(() => {
-    if (seatData) {
-      setTotalSeatCount(seatData.reduce((acc, cur) => acc + cur.count, 0));
+    if (eventName !== null) {
+      fetchWithHandler(() => getSeat(namespace), {
+        onSuccess: (response) => {
+          setTotalSeatCount(response.data.filter((s) => s.eventName === eventName).length);
+        },
+        onError: () => {},
+      });
     }
-  }, [seatData]);
+  }, [namespace, eventName]);
 
-  if (reservedSeatCount === null && seatData) {
+  if (reservedSeatCount === null || totalSeatCount === null) {
     return null;
   }
 

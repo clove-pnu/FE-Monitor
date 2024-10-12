@@ -44,7 +44,7 @@ export default function PlayMonitor({
 
   useEffect(() => {
     if (namespace && recentDates) {
-      fetchWithHandler(() => getPlayMonitorData(), {
+      fetchWithHandler(() => getPlayMonitorData(namespace), {
         onSuccess: (response) => {
           const dataResult = response.data.tickets.filter((d) => d.namespace === namespace);
 
